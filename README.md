@@ -1,12 +1,19 @@
-# PDF-to-PPTX Automated Skill (`SKILL.md`)
+# AI Slide Generator (`PDF-to-PPTX` Skill)
 
 Fail **`SKILL.md`** ini ialah satu fail lengkap (*single-file portable skill*) untuk **Google Antigravity** (atau mana-mana ejen AI yang menyokong `SKILL.md` / `GEMINI.md` / `AGENTS.md`). Ia mengautomasikan keseluruhan proses menukar satu atau lebih dokumen sumber (**`.pdf`, `.docx`, `.txt`, `.md`**) kepada pembentangan PowerPoint (`.pptx`) bertahap eksekutif lengkap dengan carta graf **300 DPI latar telus**, **4 tema warna eksekutif**, dan **arahan tambahan (*custom instructions*)**.
 
+## Quick Start (3 Langkah)
+
+1. **Clone / buka projek ini** dalam IDE atau ejen AI anda (cth: Google Antigravity / VS Code).
+2. **Letakkan dokumen sumber** (`.pdf`, `.docx`, `.txt`, `.md`) ke dalam `<nama_deck>/source/` (atau cipta folder baharu bila ditanya).
+3. Taip **`run pdf to pptx`** dalam chat dan jawab soalan ringkas yang dipaparkan.
+
 ---
 
-## Kandungan Dalam Folder Ini
+## Kandungan Dalam Projek Ini
 
-- **`SKILL.md`** — Fail skill utama (1 fail sahaja, boleh disalin terus ke projek atau komputer lain).
+- **`.agents/skills/pdf-to-pptx/SKILL.md`** — Fail skill aktif yang dibaca secara automatik oleh ejen dalam projek ini.
+- **`SKILL.md`** — Salinan *portable* di *root* (mudah disalin terus ke projek lain atau folder global).
 - **`README.md`** — Panduan penggunaan dan pemasangan di tempat lain.
 
 ---
@@ -16,8 +23,9 @@ Fail **`SKILL.md`** ini ialah satu fail lengkap (*single-file portable skill*) u
 Anda boleh menyimpan dan menjana **banyak pembentangan berasingan** dalam satu projek yang sama dengan meletakkan setiap pembentangan di dalam foldernya sendiri:
 
 ```text
-SLIDE01/
-├── .agents/skills/pdf-to-pptx/SKILL.md   # Skill utama (multi-deck)
+<project-root>/
+├── .agents/skills/pdf-to-pptx/SKILL.md   # Skill aktif projek (multi-deck)
+├── SKILL.md                              # Salinan portable untuk projek lain
 ├── slide1/                               # Deck 1
 │   ├── source/                           # Fail sumber (.pdf, .docx, .txt, .md) & rujukan (.pptx)
 │   ├── workspace/                        # Teks ekstrak, tables.json, slide_plan.json
@@ -38,13 +46,15 @@ SLIDE01/
 2. Taip **arahan pendek** sahaja dalam chat:
    - **Terus nyatakan nama folder deck:** *"Run pdf-to-pptx untuk slide1"* atau *"Buat slide dari folder slide2"*.
    - **Tanpa nyatakan nama folder:** *"Run pdf to pptx"* — Ejen akan imbas folder deck yang ada dan **bertanya soalan pertama: pilih folder deck mana yang hendak dijana** (atau cipta folder baharu).
-3. **Fasa 0 (7 Soalan Wajib dalam `<nama_deck>/`):** Ejen akan menyenaraikan fail dalam `<nama_deck>/source/` dan bertanya **7 soalan ringkas**:
+3. **Fasa 0 (Semakan Cache & 7 Soalan Wajib dalam `<nama_deck>/`):**
+   - **Semakan Cache (*Cache Check*):** Jika `<nama_deck>/workspace/` sudah mempunyai data asas terdahulu (`raw_text.md`, `tables.json`, `image_manifest.json`), ejen akan bertanya sama ada anda mahu **menggunakan data cache sedia ada** (terus ke Fasa 2–3) atau **clear dan jana semula base data baharu** (Fasa 1–3 penuh).
+   - Ejen juga akan menyenaraikan fail dalam `<nama_deck>/source/` dan bertanya **7 soalan ringkas**:
    1. **Source data:** Fail sumber utama mana yang hendak digunakan? *(Menyokong `.pdf`, `.docx`, `.txt`, `.md` — boleh lebih daripada 1 fail)*
    2. **Sample rujukan:** Ada fail `.pptx` contoh untuk dirujuk gaya/strukturnya? *(boleh lebih daripada 1 fail, atau `tiada`)*
    3. **Target pages:** Berapa jumlah halaman slide sasaran? *(cth: `15–22 slide`)*
    4. **Maksimum poin per topik:** Berapa maksimum bullet per topik/slide? *(cth: `4 bullet`, huraian penuh masuk ke Speaker Notes)*
    5. **Bahasa output:** Mahu dalam Bahasa Melayu, English, atau Dwi-bahasa?
-   6. **Tema Warna (*Color Theme*):** Pilih daripada 4 tema eksekutif siap pakai (**MOH Navy & Teal**, **Corporate Slate & Blue**, **Medical Emerald & Gold**, atau **Executive Burgundy & Amber**) — diselaraskan pada slide dan carta 300 DPI.
+   6. **Tema Warna (*Color Theme*):** Pilih daripada 4 tema eksekutif siap pakai (**Classic Navy & Teal**, **Corporate Slate & Blue**, **Emerald & Gold**, atau **Executive Burgundy & Amber**) — diselaraskan pada slide dan carta 300 DPI.
    7. **Arahan Tambahan (*Custom Instructions*):** Ada arahan khas? *(Pilihan — cth: fokus pada bab tertentu, nada mesyuarat pengurusan, nama jabatan/pembentang di muka depan, atau `tiada`)*.
 4. **Automasi Fasa 1 → Fasa 3 (Terasing dalam `<nama_deck>/`):** Sebaik sahaja anda jawab 7 soalan itu, ejen akan menjalankan semua langkah berikut secara automatik di dalam folder `<nama_deck>/`:
    - **Fasa 1 (`<nama_deck>/extract_pdf.py`):** Mengekstrak teks daripada PDF/DOCX/TXT (`workspace/raw_text.md`), jadual (`workspace/tables.json`), dan imej/rajah (`assets/pdf_img_*.png`).
