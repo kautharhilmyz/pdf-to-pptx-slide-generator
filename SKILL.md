@@ -45,9 +45,9 @@ Scan `<deck_dir>/source/` to pre-populate file options, then ask the user the fo
 4. **Max Points per Topic (`max_points_per_topic`)**: Maksimum poin/bullet per topik atau per slide? *(Cadangan lalai: maks 4 bullet per slide, 12–15 patah perkataan per bullet; selebihnya masuk ke Speaker Notes atau sub-slide).*
 5. **Output Language (`output_language`)**: Bahasa output untuk tajuk, isi slide, label carta, dan *speaker notes*? *(cth: Bahasa Melayu profesional, English, atau Dwi-bahasa).*
 6. **Color Theme (`color_theme`)**: Pilih tema warna eksekutif (diselaraskan pada slide & carta 300 DPI):
-   - **MOH Navy & Teal** *(Lalai — Background `#F8FAFC`, Dark `#0F172A`, Primary `#1E3A8A`, Accent `#0D9488`, Coral `#E05A47`, Amber `#D97706`)*
+   - **Classic Navy & Teal** *(Lalai — Background `#F8FAFC`, Dark `#0F172A`, Primary `#1E3A8A`, Accent `#0D9488`, Coral `#E05A47`, Amber `#D97706`)*
    - **Corporate Slate & Blue** *(Background `#F8FAFC`, Dark `#1E293B`, Primary `#0F4C81`, Accent `#0284C7`, Coral `#DC2626`, Amber `#EA580C`)*
-   - **Medical Emerald & Gold** *(Background `#F7FEFA`, Dark `#064E3B`, Primary `#047857`, Accent `#D97706`, Coral `#E11D48`, Blue `#0284C7`)*
+   - **Emerald & Gold** *(Background `#F7FEFA`, Dark `#064E3B`, Primary `#047857`, Accent `#D97706`, Coral `#E11D48`, Blue `#0284C7`)*
    - **Executive Burgundy & Amber** *(Background `#FDF8F6`, Dark `#450A0A`, Primary `#7F1D1D`, Accent `#B45309`, Teal `#0F766E`, Blue `#1D4ED8`)*
    *(Jika `sample_files` diberikan, selaraskan jika diminta atau gunakan tema pilihan ini).*
 7. **Custom Instructions (`custom_instructions`)**: Ada arahan tambahan khas? *(Pilihan — cth: fokus pada bab tertentu sahaja, nada mesyuarat pengurusan tertinggi, nama jabatan/pembentang di muka depan, atau `tiada`).*
@@ -110,9 +110,9 @@ Based on `<deck_dir>/workspace/raw_text.md`, `tables.json`, `image_manifest.json
      - Direct data labels on bars/points/slices
      - Remove top and right spines (`ax.spines['top'].set_visible(False)`, `right`)
      - **Theme-Aligned Palette**: Use the exact color palette of the selected `color_theme`:
-       - *MOH Navy & Teal*: `["#1E3A8A", "#0D9488", "#E05A47", "#D97706", "#3B82F6", "#475569"]`
+       - *Classic Navy & Teal*: `["#1E3A8A", "#0D9488", "#E05A47", "#D97706", "#3B82F6", "#475569"]`
        - *Corporate Slate & Blue*: `["#0F4C81", "#0284C7", "#EA580C", "#16A34A", "#6366F1", "#475569"]`
-       - *Medical Emerald & Gold*: `["#047857", "#D97706", "#0284C7", "#E11D48", "#0D9488", "#374151"]`
+       - *Emerald & Gold*: `["#047857", "#D97706", "#0284C7", "#E11D48", "#0D9488", "#374151"]`
        - *Executive Burgundy & Amber*: `["#7F1D1D", "#B45309", "#0F766E", "#1D4ED8", "#BE123C", "#44403C"]`
    - Save charts as `<deck_dir>/assets/chart_slide_{slide_number}_{YYYYMMDD_HHMMSS}.png` and verify every linked image file exists before Phase 3.
 
