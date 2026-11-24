@@ -1,0 +1,19 @@
+{
+  "theme": "classic_navy_teal",
+  "charts": [
+    {
+      "slide_number": 4,
+      "output_file": "assets/chart_slide_4_demo.png",
+      "type": "bar",
+      "title": "Regional Revenue Comparison ($M)",
+      "xlabel": "Region",
+      "ylabel": "USD Millions",
+      "categories": ["APAC", "EMEA", "Americas"],
+      "series": [
+        {"name": "FY2025", "values": [42.5, 38.0, 61.2]},
+        {"name": "FY2026", "values": [54.1, 41.5, 73.8]}
+      ],
+      "value_format": "{:.1f}"
+    }
+  ]
+}

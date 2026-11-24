@@ -1,0 +1,102 @@
+{
+  "theme": "classic_navy_teal",
+  "slides": [
+    {
+      "slide_number": 1,
+      "layout": "title_slide",
+      "title": "FY2026 Operations Review",
+      "subtitle": "Performance Summary & FY2027 Roadmap",
+      "meta": "Strategy & Operations | Demo Deck",
+      "speaker_notes": "Opening title slide. [Source: sample_report.md]"
+    },
+    {
+      "slide_number": 2,
+      "layout": "executive_summary",
+      "title": "Executive Summary",
+      "cards": [
+        {"title": "Revenue Growth", "body": "Total revenue reached $169.4M, up 19.5% YoY across all regions."},
+        {"title": "Margin Expansion", "body": "Operating margin improved 210 bps to 22.4% via cloud optimization."},
+        {"title": "Enterprise Retention", "body": "Net dollar retention reached 118% driven by multi-year renewals."}
+      ],
+      "takeaway": "Focus H1 FY2027 execution on APAC enterprise expansion and v4.0 platform rollout.",
+      "speaker_notes": "Board-level summary of FY2026 results. [Source: sample_report.md]"
+    },
+    {
+      "slide_number": 3,
+      "layout": "key_metrics_cards",
+      "title": "Key Performance Indicators",
+      "cards": [
+        {"label": "Total Revenue", "value": "$169.4M", "delta": "+19.5% YoY"},
+        {"label": "Operating Margin", "value": "22.4%", "delta": "+210 bps"},
+        {"label": "Net Retention", "value": "118%", "delta": "Enterprise tier"}
+      ],
+      "bullets": [
+        "**Multi-Year Contracts:** Enterprise renewals accounted for 64% of net-new ARR.",
+        "**Infrastructure Efficiency:** Cloud spend per active seat declined 8% YoY."
+      ],
+      "speaker_notes": "KPI breakdown from executive overview. [Source: sample_report.md]"
+    },
+    {
+      "slide_number": 4,
+      "layout": "two_column_chart",
+      "title": "Regional Revenue Growth",
+      "bullets": [
+        "**Americas Scale:** Largest market at $73.8M (+20.6% YoY).",
+        "**APAC Acceleration:** Fastest-growing region at +27.3% YoY.",
+        "**EMEA Stability:** Steady 9.2% growth with strong public-sector pipeline."
+      ],
+      "visual_path": "assets/chart_slide_4_demo.png",
+      "speaker_notes": "Regional revenue table comparison. [Source: sample_report.md]"
+    },
+    {
+      "slide_number": 5,
+      "layout": "comparison_table",
+      "title": "Regional Performance Breakdown",
+      "headers": ["Region", "FY2025 ($M)", "FY2026 ($M)", "YoY Growth"],
+      "rows": [
+        ["Americas", "61.2", "73.8", "+20.6%"],
+        ["APAC", "42.5", "54.1", "+27.3%"],
+        ["EMEA", "38.0", "41.5", "+9.2%"]
+      ],
+      "speaker_notes": "Exact regional figures for Q&A reference. [Source: sample_report.md]"
+    },
+    {
+      "slide_number": 6,
+      "layout": "timeline_roadmap",
+      "title": "FY2027 Execution Roadmap",
+      "milestones": [
+        {"period": "Q1 2027", "title": "APAC Hub Launch", "detail": "Establish Singapore delivery team"},
+        {"period": "Q2 2027", "title": "v4.0 Release", "detail": "Ship real-time analytics engine"},
+        {"period": "Q3 2027", "title": "SOC2 Type II", "detail": "Complete EU & APAC compliance"},
+        {"period": "Q4 2027", "title": "Partner Channel", "detail": "Onboard 15 regional SI partners"}
+      ],
+      "speaker_notes": "Quarterly milestones for FY2027. [Source: sample_report.md]"
+    },
+    {
+      "slide_number": 7,
+      "layout": "process_flow",
+      "title": "Client Onboarding Workflow",
+      "steps": [
+        {"step": "1", "title": "Discovery", "detail": "Audit data sources & security scope"},
+        {"step": "2", "title": "Provision", "detail": "Deploy isolated tenant & SSO"},
+        {"step": "3", "title": "Migrate", "detail": "Validate historical datasets"},
+        {"step": "4", "title": "Go-Live", "detail": "Train admins & hand over SLA"}
+      ],
+      "speaker_notes": "Standard 4-week onboarding workflow. [Source: sample_report.md]"
+    },
+    {
+      "slide_number": 8,
+      "layout": "matrix_2x2",
+      "title": "Initiative Prioritization Matrix",
+      "x_axis": "Implementation Effort (Low -> High)",
+      "y_axis": "Impact",
+      "quadrants": {
+        "top_left": {"title": "Quick Wins", "items": ["Self-serve SSO", "Usage alerts"]},
+        "top_right": {"title": "Strategic Bets", "items": ["APAC Hub", "v4.0 Engine"]},
+        "bottom_left": {"title": "Fill-Ins", "items": ["UI theme tweaks", "CSV export"]},
+        "bottom_right": {"title": "Deprioritize", "items": ["Legacy SOAP bridge"]}
+      },
+      "speaker_notes": "Prioritization matrix for FY2027 initiatives. [Source: sample_report.md]"
+    }
+  ]
+}
