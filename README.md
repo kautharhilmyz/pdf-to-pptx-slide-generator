@@ -1,112 +1,96 @@
-# AI Slide Generator (`PDF-to-PPTX` Skill)
+# AI Slide Generator (`pdf-to-pptx` Skill)
 
-Fail **`SKILL.md`** ini ialah satu fail lengkap (*single-file portable skill*) untuk **Google Antigravity** (atau mana-mana ejen AI yang menyokong `SKILL.md` / `GEMINI.md` / `AGENTS.md`). Ia mengautomasikan keseluruhan proses menukar satu atau lebih dokumen sumber (**`.pdf`, `.docx`, `.txt`, `.md`**) kepada pembentangan PowerPoint (`.pptx`) bertahap eksekutif lengkap dengan carta graf **300 DPI latar telus**, **4 tema warna eksekutif**, dan **arahan tambahan (*custom instructions*)**.
+*(Bahasa Melayu: lihat [README-MY.md](README-MY.md))*
 
-## Quick Start (3 Langkah)
+An automated **3-phase multi-deck skill** for **Google Antigravity** (and any AI agent supporting `SKILL.md`) that converts source documents (**`.pdf`, `.docx`, `.txt`, `.md`**) into executive **16:9 PowerPoint (`.pptx`)** presentations.
 
-1. **Clone / buka projek ini** dalam IDE atau ejen AI anda (cth: Google Antigravity / VS Code).
-2. **Letakkan dokumen sumber** (`.pdf`, `.docx`, `.txt`, `.md`) ke dalam `<nama_deck>/source/` (atau cipta folder baharu bila ditanya).
-3. Taip **`run pdf to pptx`** dalam chat dan jawab soalan ringkas yang dipaparkan.
+Instead of rewriting boilerplate Python from scratch on every run, this skill bundles **data-driven Python scripts** (`extract.py`, `charts.py`, `build_pptx.py`, `visual_qa.py`) while the AI generates fresh, custom `chart_plan` and `slide_plan` JSONs for every deck.
 
 ---
 
-## Kandungan Dalam Projek Ini
+## Key Features
 
-- **`.agents/skills/pdf-to-pptx/SKILL.md`** — Fail skill aktif yang dibaca secara automatik oleh ejen dalam projek ini.
-- **`SKILL.md`** — Salinan *portable* di *root* (mudah disalin terus ke projek lain atau folder global).
-- **`README.md`** — Panduan penggunaan dan pemasangan di tempat lain.
+- **Data-Driven Engine (`scripts/`):** Fast, deterministic extraction, 300 DPI transparent-background `matplotlib` charts, and `python-pptx` assembly.
+- **10 Consulting & Executive Layouts:** `title_slide`, `section_header`, `key_metrics_cards`, `two_column_chart`, `two_column_image`, `comparison_table`, `executive_summary`, `timeline_roadmap`, `process_flow`, and `matrix_2x2`.
+- **4 Built-in Executive Themes + Corporate Brand Kit (`brand.json`):** Customize colors, fonts, company logo, or pass a reference `.pptx` template.
+- **Speaker-Notes-Only Citations:** Source references (`[Source: report.pdf, p. 12]`) are placed cleanly in Speaker Notes without cluttering slide visuals.
+- **Multi-Deck Isolation & Anti-Overwrite:** Keep multiple decks in separate folders (`slide1/`, `slide2/`); every run outputs a timestamped `Final_Presentation_{YYYYMMDD_HHMMSS}.pptx`.
+- **Visual QA Verification:** Checks PPTX XML integrity, slide count, embedded images, and optionally renders PNG previews via LibreOffice + PyMuPDF.
 
 ---
 
-## Struktur Multi-Deck (Banyak Pembentangan Dalam Satu Projek)
+## Quick Start (3 Steps)
 
-Anda boleh menyimpan dan menjana **banyak pembentangan berasingan** dalam satu projek yang sama dengan meletakkan setiap pembentangan di dalam foldernya sendiri:
+1. **Open this project** (or install `.agents/skills/pdf-to-pptx/` globally).
+2. **Add your source documents** (`.pdf`, `.docx`, `.txt`, `.md`) into `<deck_name>/source/`.
+3. Type **`run pdf to pptx`** in chat and answer the 7 short intake questions.
+
+---
+
+## Project Structure
 
 ```text
-<project-root>/
-├── .agents/skills/pdf-to-pptx/SKILL.md   # Skill aktif projek (multi-deck)
-├── SKILL.md                              # Salinan portable untuk projek lain
-├── slide1/                               # Deck 1
-│   ├── source/                           # Fail sumber (.pdf, .docx, .txt, .md) & rujukan (.pptx)
-│   ├── workspace/                        # Teks ekstrak, tables.json, slide_plan.json
-│   ├── assets/                           # Imej ekstrak & carta 300 DPI
-│   ├── output/                           # Final_Presentation_<YYYYMMDD_HHMMSS>.pptx
-│   ├── extract_pdf.py
-│   ├── generate_charts.py
-│   └── build_presentation.py
-├── slide2/                               # Deck 2
-│   └── source/ ...
+pdf2pptx-presentation/
+├── .agents/skills/pdf-to-pptx/
+│   ├── SKILL.md                    # Active skill definition
+│   ├── scripts/
+│   │   ├── extract.py              # Phase 1: PDF/DOCX/TXT/MD + tables + images
+│   │   ├── charts.py               # Phase 2: 300 DPI transparent charts
+│   │   ├── build_pptx.py           # Phase 3: 16:9 PPTX builder (10 layouts)
+│   │   └── visual_qa.py            # QA: XML check + optional PNG render
+│   └── references/
+│       ├── themes.json             # 4 built-in executive color palettes
+│       └── slide_plan_schema.md    # JSON schema reference
+├── examples/                       # Sample source + generated demo & previews
+├── SKILL.md                        # Root portable copy
+├── README.md                       # English documentation
+└── README-MY.md                    # Bahasa Melayu documentation
 ```
 
 ---
 
-## Cara Guna (Aliran Kerja)
+## Corporate Brand Kit (`brand.json`, Optional)
 
-1. Letakkan fail sumber anda di dalam `<nama_deck>/source/` (cth: `slide1/source/` atau `slide2/source/`).
-2. Taip **arahan pendek** sahaja dalam chat:
-   - **Terus nyatakan nama folder deck:** *"Run pdf-to-pptx untuk slide1"* atau *"Buat slide dari folder slide2"*.
-   - **Tanpa nyatakan nama folder:** *"Run pdf to pptx"* — Ejen akan imbas folder deck yang ada dan **bertanya soalan pertama: pilih folder deck mana yang hendak dijana** (atau cipta folder baharu).
-3. **Fasa 0 (Semakan Cache & 7 Soalan Wajib dalam `<nama_deck>/`):**
-   - **Semakan Cache (*Cache Check*):** Jika `<nama_deck>/workspace/` sudah mempunyai data asas terdahulu (`raw_text.md`, `tables.json`, `image_manifest.json`), ejen akan bertanya sama ada anda mahu **menggunakan data cache sedia ada** (terus ke Fasa 2–3) atau **clear dan jana semula base data baharu** (Fasa 1–3 penuh).
-   - Ejen juga akan menyenaraikan fail dalam `<nama_deck>/source/` dan bertanya **7 soalan ringkas**:
-   1. **Source data:** Fail sumber utama mana yang hendak digunakan? *(Menyokong `.pdf`, `.docx`, `.txt`, `.md` — boleh lebih daripada 1 fail)*
-   2. **Sample rujukan:** Ada fail `.pptx` contoh untuk dirujuk gaya/strukturnya? *(boleh lebih daripada 1 fail, atau `tiada`)*
-   3. **Target pages:** Berapa jumlah halaman slide sasaran? *(cth: `15–22 slide`)*
-   4. **Maksimum poin per topik:** Berapa maksimum bullet per topik/slide? *(cth: `4 bullet`, huraian penuh masuk ke Speaker Notes)*
-   5. **Bahasa output:** Mahu dalam Bahasa Melayu, English, atau Dwi-bahasa?
-   6. **Tema Warna (*Color Theme*):** Pilih daripada 4 tema eksekutif siap pakai (**Classic Navy & Teal**, **Corporate Slate & Blue**, **Emerald & Gold**, atau **Executive Burgundy & Amber**) — diselaraskan pada slide dan carta 300 DPI.
-   7. **Arahan Tambahan (*Custom Instructions*):** Ada arahan khas? *(Pilihan — cth: fokus pada bab tertentu, nada mesyuarat pengurusan, nama jabatan/pembentang di muka depan, atau `tiada`)*.
-4. **Automasi Fasa 1 → Fasa 3 (Terasing dalam `<nama_deck>/`):** Sebaik sahaja anda jawab 7 soalan itu, ejen akan menjalankan semua langkah berikut secara automatik di dalam folder `<nama_deck>/`:
-   - **Fasa 1 (`<nama_deck>/extract_pdf.py`):** Mengekstrak teks daripada PDF/DOCX/TXT (`workspace/raw_text.md`), jadual (`workspace/tables.json`), dan imej/rajah (`assets/pdf_img_*.png`).
-   - **Fasa 2 (`<nama_deck>/workspace/slide_plan_*.json` & `generate_charts.py`):** Menyusun jalan cerita slide mengikut arahan tambahan & had poin, serta menjana carta graf 300 DPI berlatar telus (`assets/chart_slide_*.png`) mengikut palet tema warna pilihan.
-   - **Fasa 3 (`<nama_deck>/build_presentation.py`):** Membina fail akhir **`<nama_deck>/output/Final_Presentation_<YYYYMMDD_HHMMSS>.pptx`** (16:9, susun atur dua kolum, kad KPI, jadual bergaya, nisbah aspek imej terjaga, dan *Speaker Notes*). Setiap larian semula akan menghasilkan fail bertanda masa baharu di dalam folder `output/` supaya versi terdahulu tidak terpadam.
+Drop a `brand.json` file inside `<deck_name>/brand.json` to override any built-in theme:
+
+```json
+{
+  "company_name": "Acme Advisory",
+  "logo_path": "source/logo.png",
+  "primary": "#1E3A8A",
+  "accent": "#0D9488",
+  "background": "#F8FAFC",
+  "dark": "#0F172A",
+  "body": "#334155",
+  "font_title": "Segoe UI",
+  "font_body": "Calibri",
+  "chart_palette": ["#1E3A8A", "#0D9488", "#E05A47", "#D97706", "#3B82F6", "#475569"]
+}
+```
 
 ---
 
-## Cara Pasang & Run di Tempat Lain
+## Installation Elsewhere
 
-Anda cuma perlukan fail **`SKILL.md`** ini sahaja. Pilih salah satu daripada 3 cara di bawah:
+Copy the entire `.agents/skills/pdf-to-pptx/` folder (including `SKILL.md`, `scripts/`, and `references/`) into:
 
-### Cara 1: Pasang Secara Global (Disyorkan — Berfungsi di Semua Projek)
-Salin fail `SKILL.md` ke dalam folder skill global Antigravity di komputer anda:
-
-- **Windows (PowerShell):**
-  ```powershell
-  mkdir "$env:USERPROFILE\.gemini\config\skills\pdf-to-pptx" -Force
-  Copy-Item .\SKILL.md "$env:USERPROFILE\.gemini\config\skills\pdf-to-pptx\SKILL.md"
-  ```
-- **macOS / Linux:**
-  ```bash
-  mkdir -p ~/.gemini/config/skills/pdf-to-pptx
-  cp SKILL.md ~/.gemini/config/skills/pdf-to-pptx/SKILL.md
-  ```
-Selepas disalin, anda boleh buka **mana-mana projek** dan terus guna arahan pendek.
-
-### Cara 2: Pasang Dalam Projek Tertentu Sahaja (Boleh Kongsi via Git)
-Salin fail `SKILL.md` ke dalam folder `.agents/skills/pdf-to-pptx/` di root projek baharu anda:
-
-- **Windows (PowerShell):**
-  ```powershell
-  mkdir ".\.agents\skills\pdf-to-pptx" -Force
-  Copy-Item .\SKILL.md ".\.agents\skills\pdf-to-pptx\SKILL.md"
-  ```
-- **macOS / Linux:**
-  ```bash
-  mkdir -p .agents/skills/pdf-to-pptx
-  cp SKILL.md .agents/skills/pdf-to-pptx/SKILL.md
-  ```
-
-### Cara 3: Guna Terus Sebagai Rules (`GEMINI.md` / `AGENTS.md`) atau Tampal di Chat
-Jika anda bekerja di persekitaran tanpa folder `skills/`, anda boleh:
-- Menyalin keseluruhan isi `SKILL.md` (buang bahagian `---` YAML di atas jika perlu) ke dalam fail `GEMINI.md` atau `AGENTS.md` di root projek; **atau**
-- Tampal terus isi `SKILL.md` ke dalam chat sebagai arahan permulaan.
+- **Global Antigravity Skills (Recommended):**
+  - Windows (PowerShell):
+    ```powershell
+    Copy-Item -Recurse .\.agents\skills\pdf-to-pptx "$env:USERPROFILE\.gemini\config\skills\pdf-to-pptx" -Force
+    ```
+  - macOS / Linux:
+    ```bash
+    mkdir -p ~/.gemini/config/skills && cp -r .agents/skills/pdf-to-pptx ~/.gemini/config/skills/
+    ```
 
 ---
 
-## Keperluan Sistem (Prerequisites)
+## Prerequisites
 
 - **Python 3.10+**
-- Pakej Python berikut (ejen akan semak & pasang secara automatik jika belum ada):
+- Required Python packages:
   ```bash
   pip install pymupdf pdfplumber pandas matplotlib seaborn python-pptx pillow
   ```
+- *(Optional)* **LibreOffice (`soffice`)** on `PATH` for automated PNG slide preview rendering during Visual QA.
